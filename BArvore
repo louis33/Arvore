@@ -1,0 +1,338 @@
+import java.lang.String;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+package binaria;
+
+public class BArvore extends BintNo{
+	
+	String r;
+	BArvore(String novoValor, String r) {
+		super(novoValor, r);
+			this.valor = novoValor;
+			this.r = r;
+	}
+	private BintNo Raiz;
+	
+BintNo inserir(BintNo arvore, char novoNo[], int n){
+		
+		if(arvore == null){
+			
+			new BintNo(novoNo[n-n]);
+		}
+		
+		else{
+			if(arvore.esq == null){
+				inserir(arvore.esq, novoNo[n-n+1]);
+				
+			}
+			if(arvore.dir == null){
+				inserir(arvore.dir, novoNo[n-n+1]);	
+			}
+			
+			else {
+			
+			System.out.println("Inserindo" + novoNo + "A esquerda de" + arvore.valor);	
+			arvore.esq = inserir(arvore.esq, novoNo[n-n+1]);
+			
+		}
+		}
+			
+			System.out.println("Inserindo" + novoNo + "A direita de" + arvore.valor);
+			arvore.dir = inserir(arvore.dir, novoNo[n-n+1]);
+			
+			
+	}
+		
+		
+		
+void inserirNo(char novoValor){
+	
+	Raiz = inserir(Raiz, novoValor);
+	
+}
+
+private void exibir_esquerdo(BintNo arv){
+	
+	if(arv != null){
+		
+		exibir_esquerdo(arv.esq);
+		System.out.println(arv.valor);
+	}
+}
+
+private void exibir_direito(BintNo arv1){
+	
+	if(arv1 != null){
+		
+		exibir_direito(arv1.dir);
+		System.out.println(arv1.valor);
+	}
+	
+}
+
+	public void exibir_raiz(){
+		System.out.println("Raiz" + Raiz.valor);
+	}
+	
+public void exibirNo_esq(){
+	
+	exibir_esquerdo(Raiz);
+	
+}
+
+public void exibirNo_dir(){
+	
+	exibir_direito(Raiz);
+	
+}
+
+public void excluirNo(String pro){
+	
+	try {
+		
+		BintNo tempNo = Raiz, pai = null, filho = Raiz, temp;
+		while(tempNo != null && tempNo.valor != pro){
+			
+			pai = tempNo;
+			if(pro >= tempNo.valor)
+				tempNo = tempNo.esq;
+			
+			else
+				tempNo = tempNo.dir;
+		}
+		
+		if(tempNo == null)
+			System.out.println("item nao localizado.");
+		if(pai == null)
+			if(tempNo.dir == null)
+					Raiz = tempNo.esq;
+		
+			else if(tempNo.esq == null)
+				Raiz = tempNo.dir;
+			
+			else{
+				
+				for(temp = tempNo, filho = tempNo.esq; filho.dir != null; temp = filho, filho = filho.dir);
+			
+				if(filho != tempNo.esq){
+					temp.dir = filho.esq;
+					filho.esq = Raiz.esq;
+					
+				}
+				
+				filho.dir = Raiz.dir;
+				Raiz = filho;
+			}
+		
+	else if (tempNo.dir == null){
+		
+		if(pai.esq == tempNo)
+			pai.esq = tempNo.esq;
+	}
+	
+	else
+		pai.dir = tempNo.esq;
+
+	else if(tempNo.esq == null){
+		
+		if(pai.esq == tempNo)
+			pai.esq = tempNo.dir;
+		
+		else
+			pai.dir = tempNo.dir;
+		
+	}
+	
+	else{
+		
+		for(temp = tempNo, filho = tempNo.esq; filho.dir != null; temp = filho, filho = filho.dir);
+		if(filho != tempNo.esq){
+			
+			temp.dir = filho.esq;
+			filho.esq = tempNo.esq;
+			
+		}
+	
+		filho.dir = tempNo.dir;
+		if(pai.esq == tempNo)
+			pai.esq = filho;
+		
+		else 
+			pai.dir = filho;
+	}
+}	catch (NullPointerException erro){
+		//Item nao encontrado
+	
+	}
+
+ }	
+
+static void fullbtree(BintNo no, String[] s, int depth){
+    
+	if(depth < s.length - 1){
+            no.esq = new BintNo(s[depth], no.patch + "1");
+            fullbtree(no.esq, s, depth+1);
+
+            no.dir = new BintNo(s[depth], no.patch + "0");
+            fullbtree(no.dir, s, depth+1);
+    }
+        else{
+            no.esq = new BintNo("X", no.patch + "1");
+            no.dir = new BintNo("X", no.patch + "0");
+        }
+    }
+
+void decisao(int n, String[] vetor){
+	
+	int depth = 0;
+	BintNo x = new BintNo("vetor", "");	
+	fullbtree(x, vetor, depth);
+	
+	
+}
+
+
+String busca(String[] vetor, BintNo arvore, int n){
+	
+	if(vetor != null){
+		
+		if(arvore.dir != null && arvore.esq != null){
+				
+				if(vetor[n] == '1'){
+					
+					busca(vetor[n+1], arvore.esq, n-1);
+					
+				}
+				if(vetor[n] == '0'){
+					
+					busca(vetor[n+1], arvore.dir, n-1);
+					
+				}
+			
+		if(arvore.dir == null && arvore.esq == null){
+			
+			arvore.valor = vetor[k];
+			
+			return arvore.valor;
+		}
+		}	
+				
+		}
+		
+		
+		
+	}
+static void printNivel(BintNo no, int k){
+	
+	if(no == null){
+		
+		return;
+	}
+	if(k == 0){
+		
+		System.out.println(no.patch + "");
+	}
+
+	else{
+		printNivel(no.esq, k-1);
+		printNivel(no.dir, k-1);
+		
+	}
+}
+
+void podar(String [] pro, BintNo arvore, int k){
+	
+	if(arvore.dir != null && arvore.esq != null){	
+			
+			if(arvore.valor == pro[k]){
+					
+				if(pro[k] == '1'){
+				
+					arvore.esq = null;
+					podar(pro, arvore, k+1);
+					
+				}
+			
+				if(pro[k] == '0'){
+				
+					podar(pro, arvore.dir, k+1);
+				
+				
+				}
+			}
+			
+			if(arvore.valor != pro[k]){
+				
+				if(pro[k] == '1'){
+					
+					podar(pro, arvore.esq, k+1);
+					
+				}
+				
+				if(pro[k] == '0'){
+				
+					podar(pro, arvore.dir, k+1);
+			}
+
+						
+	}
+			
+	}
+
+}
+
+public static void main(String [] args){
+	
+	Scanner scanner = new Scanner(System.in);
+	int n,p,k;
+	int posicao;
+	
+    String[] s = {"1", "2", "3", "4"};
+
+    BintNo noR = new BintNo("0", "");
+
+        //printtree(noR);
+	
+	System.out.println("1: Criar nova arvore");
+	System.out.println("2: Imprimir arvore");
+	System.out.println("3: Podar propriedade da arvore");
+	System.out.println("4: Sair");
+	int z = scanner.nextInt();
+	
+	switch(z){
+	
+	case 1:
+		
+		for(int i=0; i<s.length+1; i++){
+            printNivel(noR, i);
+            System.out.println("");
+            
+            fullbtree(noR, s, 0);   
+        }
+		
+		return;
+		break;
+	
+	case 2:
+		System.out.println("Escolha o nivel que queira imprimir.");
+		int k1 = scanner.nextInt();
+		printNivel(noR ,k1);
+		return;
+		break;
+		
+	case 3:
+		System.out.println("Escolha a propriedade que queira podar");
+		int k2 = scanner.nextInt();
+		int k3 = 0;
+		podar(s, noR, k3);
+		return;
+		break;
+		
+	case 4:
+		break;
+	}
+	
+	
+ }
+}
