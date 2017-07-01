@@ -1,0 +1,15 @@
+package binaria;
+
+public class BintNo {
+	
+	String patch;
+	String valor;
+	BintNo esq;
+	BintNo dir;
+	
+	BintNo(String novoValor, String patch){
+		
+		this.valor = novoValor;
+		this.patch = patch;
+	}
+}
